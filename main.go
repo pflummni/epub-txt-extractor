@@ -55,12 +55,17 @@ func main() {
 	fmt.Printf("Processing: %s\n", reader.Rootfiles[0].Metadata.Title)
 
 	// Create output directory (outputDir/bookname)
-	booktitleSlug := slug.Make(reader.Rootfiles[0].Metadata.Title)
-	bookTargetDir := filepath.Join(outputDir, booktitleSlug)
+	book := reader.Rootfiles[0]
+	bookTitleSlug := slug.Make(book.Title)
+	bookTargetDir := filepath.Join(outputDir, bookTitleSlug)
+
 	err = os.MkdirAll(bookTargetDir, 0755)
 	if err != nil {
 		fmt.Printf("Error creating directory: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Created directory: %s\n", bookTargetDir)
+	for _, item := range book.Spine.Itemrefs {
+		fmt.Println(item.ID)
+		//TODO: Implement item extraction logic for each item
+	}
 }
